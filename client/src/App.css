@@ -11,6 +11,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background: #f5f7fb;
 }
 
 .app {
@@ -21,24 +22,110 @@ body {
 }
 
 .header {
-  height: 100px;
+  height: 85px;
   padding: 15px 30px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+  background: #111827;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 32px;
+  font-size: 28px;
+  color: white;
 }
 
 .header p {
-  margin: 8px 0 0;
-  font-size: 16px;
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #cbd5e1;
+}
+
+.workspace {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 260px;
+  padding: 20px;
+  background: white;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin: 0 0 25px;
+  font-size: 20px;
+}
+
+.sidebar section {
+  margin-bottom: 25px;
+}
+
+.sidebar h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 11px;
+  margin-bottom: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sidebar button:hover {
+  background: #eef2ff;
 }
 
 .canvas-container {
   flex: 1;
-  width: 100%;
+  min-width: 0;
   min-height: 0;
+}
+
+/* Custom React Flow nodes */
+
+.custom-node {
+  min-width: 190px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.node-header {
+  padding: 10px 12px;
+  font-weight: bold;
+  font-size: 13px;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.node-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.node-content strong {
+  font-size: 14px;
+}
+
+.node-content span {
+  font-size: 12px;
+  color: #6b7280;
 }
