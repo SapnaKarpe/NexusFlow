@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const ruleRoutes = require("./routes/ruleRoutes");
 require("dotenv").config();
 
 const connectDB = require("./db");
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/rules", ruleRoutes);
 
 app.get("/", (req, res) => {
   res.json({

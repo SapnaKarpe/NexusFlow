@@ -129,3 +129,41 @@ body {
   font-size: 12px;
   color: #6b7280;
 }
+
+.save-rule-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-rule-button:hover {
+  background: #1d4ed8;
+}
+
+.load-rule-button {
+  position: absolute;
+  top: 20px;
+  right: 125px;
+  z-index: 10;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #16a34a;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.load-rule-button:hover {
+  background: #15803d;
+}
