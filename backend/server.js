@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const ruleRoutes = require("./routes/ruleRoutes");
+const executeRoutes = require("./routes/executeRoutes");
 require("dotenv").config();
 
 const connectDB = require("./db");
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/rules", ruleRoutes);
+app.use("/api/execute", executeRoutes);
 
 app.get("/", (req, res) => {
   res.json({

@@ -172,6 +172,35 @@ function FlowCanvas() {
       alert("Failed to load rule");
     }
   };
+    const runRule = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nodes,
+          edges,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Rule execution failed");
+      }
+
+      alert(
+        `Rule executed successfully!\nNodes: ${result.nodeCount}\nEdges: ${result.edgeCount}`
+      );
+
+      console.log("Execution result:", result);
+    } catch (error) {
+      console.error("Run rule error:", error);
+      alert("Failed to execute rule");
+    }
+  };
 
   return (
     <>
@@ -181,6 +210,9 @@ function FlowCanvas() {
 
       <button className="load-rule-button" onClick={loadRule}>
         Load Rule
+      </button>
+      <button className="run-rule-button" onClick={runRule}>
+          Run Rule
       </button>
 
       <ReactFlow
