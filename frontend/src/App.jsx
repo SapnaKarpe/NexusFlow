@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import {
   ReactFlow,
   MiniMap,
@@ -60,6 +60,7 @@ const initialEdges = [
 ];
 
 function FlowCanvas() {
+    const [executionStatus, setExecutionStatus] = useState("");
   const [nodes, setNodes, onNodesChange] =
     useNodesState(initialNodes);
 
@@ -191,14 +192,14 @@ function FlowCanvas() {
         throw new Error(result.message || "Rule execution failed");
       }
 
-      alert(
-        `Rule executed successfully!\nNodes: ${result.nodeCount}\nEdges: ${result.edgeCount}`
-      );
+      setExecutionStatus(
+  `Rule executed successfully — Nodes: ${result.nodeCount}, Edges: ${result.edgeCount}`
+);
 
       console.log("Execution result:", result);
     } catch (error) {
       console.error("Run rule error:", error);
-      alert("Failed to execute rule");
+      setExecutionStatus(`Execution failed: ${error.message}`);
     }
   };
 
@@ -211,6 +212,14 @@ function FlowCanvas() {
       <button className="load-rule-button" onClick={loadRule}>
         Load Rule
       </button>
+    {executionStatus && (
+  <div className="execution-status">
+    <strong>Execution Status:</strong>
+    <br />
+    {executionStatus}
+  </div>
+)}
+
       <button className="run-rule-button" onClick={runRule}>
           Run Rule
       </button>

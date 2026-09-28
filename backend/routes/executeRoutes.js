@@ -6,21 +6,57 @@ router.post("/", async (req, res) => {
   try {
     const { nodes, edges } = req.body;
 
-    if (!nodes || !Array.isArray(nodes)) {
+    // Validate nodes
+    if (!Array.isArray(nodes)) {
       return res.status(400).json({
-        message: "Nodes are required",
+        status: "error",
+        message: "Nodes must be an array",
       });
     }
 
-    if (!edges || !Array.isArray(edges)) {
+    if (nodes.length === 0) {
       return res.status(400).json({
-        message: "Edges are required",
+        status: "error",
+        message: "Rule must contain at least one node",
       });
+    }
+
+    // Validate edges
+    if (!Array.isArray(edges)) {
+      return res.status(400).json({
+        status: "error",
+        message: "Edges must be an array",
+      });
+    }
+
+    // Validate each edge
+    for (const edge of edges) {
+      if (!edge.source || !edge.target) {
+        return res.status(400).json({
+          status: "error",
+          message: "Every edge must have a source and target",
+        });
+      }
+
+      const sourceExists = nodes.some(
+        (node) => node.id === edge.source
+      );
+
+      const targetExists = nodes.some(
+        (node) => node.id === edge.target
+      );
+
+      if (!sourceExists || !targetExists) {
+        return res.status(400).json({
+          status: "error",
+          message: "Edge references a node that does not exist",
+        });
+      }
     }
 
     const executionResult = {
       status: "success",
-      message: "Rule executed successfully",
+      message: "Rule validated and executed successfully",
       nodeCount: nodes.length,
       edgeCount: edges.length,
       executedAt: new Date(),
