@@ -1,12 +1,12 @@
 const express = require("express");
+const { executeRule } = require("../services/ruleEngine");
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { nodes, edges } = req.body;
+    const { nodes, edges, telemetry } = req.body;
 
-    // Validate nodes
     if (!Array.isArray(nodes)) {
       return res.status(400).json({
         status: "error",
@@ -21,7 +21,6 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Validate edges
     if (!Array.isArray(edges)) {
       return res.status(400).json({
         status: "error",
@@ -29,7 +28,6 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Validate each edge
     for (const edge of edges) {
       if (!edge.source || !edge.target) {
         return res.status(400).json({
@@ -54,15 +52,27 @@ router.post("/", async (req, res) => {
       }
     }
 
-    const executionResult = {
-      status: "success",
-      message: "Rule validated and executed successfully",
-      nodeCount: nodes.length,
-      edgeCount: edges.length,
-      executedAt: new Date(),
+    const currentTelemetry = telemetry || {
+      sensorId: "TURBINE-01",
+      temperature: 0,
+      pressure: 0,
     };
 
-    res.json(executionResult);
+    executeRule(nodes, edges, currentTelemetry).subscribe({
+      next: (executionResult) => {
+        res.json(executionResult);
+      },
+
+      error: (error) => {
+        console.error("RxJS rule execution error:", error);
+
+        res.status(500).json({
+          status: "error",
+          message: "Rule execution failed",
+          error: error.message,
+        });
+      },
+    });
   } catch (error) {
     console.error("Rule execution error:", error);
 
